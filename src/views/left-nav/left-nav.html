@@ -1,0 +1,19 @@
+<import from="../object-list/object-list"></import>
+<mdc-expandable accordion>
+    <div au-slot="caption">Classes</div>
+    <mdc-linear-progress open.bind="isLoadingClasses"></mdc-linear-progress>
+    <object-list if.bind="!isLoadingClasses" object-list.bind="selectedObjectService.classes"
+            type="Class"></object-list>
+</mdc-expandable>
+<mdc-expandable accordion>
+    <div au-slot="caption">Relationclasses</div>
+    <mdc-linear-progress open.bind="isLoadingRelationClasses"></mdc-linear-progress>
+    <object-list if.bind="!isLoadingRelationClasses"
+            object-list.bind="selectedObjectService.relationClasses" type="RelationClass"></object-list>
+</mdc-expandable>
+<mdc-expandable accordion>
+    <div au-slot="caption">Ports</div>
+    <mdc-linear-progress open.bind="isLoadingPorts"></mdc-linear-progress>
+    <object-list if.bind="!isLoadingPorts" 
+    object-list.bind="selectedObjectService.ports" type="Port"></object-list>
+</mdc-expandable>
