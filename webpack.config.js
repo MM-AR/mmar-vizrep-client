@@ -142,7 +142,7 @@ module.exports = (env, argv) => {
       }),
       shouldAnalyze && new BundleAnalyzerPlugin(),
       new MonacoEditorWebpackPlugin({
-        languages: ['javascript', 'typescript', 'json', 'html', 'markdown', 'python'], // pick what you need
+        languages: ['typescript'], // pick what you need
         features: ['!gotoSymbol'] // optional: disable unused features
       }),
     ].filter(Boolean)

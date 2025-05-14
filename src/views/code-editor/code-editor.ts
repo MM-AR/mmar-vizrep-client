@@ -19,7 +19,7 @@ export class CodeEditor implements ICustomElementViewModel {
   attached() {
     this.editor = monaco.editor.create(document.querySelector('#editor') as HTMLElement, {
       value: this.globalObjectInstance.codeEditorValue || '',
-      language: 'javascript',
+      language: 'typescript',
       theme: 'vs-dark',
     });
 
