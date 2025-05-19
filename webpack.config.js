@@ -30,10 +30,13 @@ const postcssLoader = {
 };
 
 module.exports = (env, argv) => {
-  const isProduction = argv.mode === 'production';
-  const shouldAnalyze = process.env.ANALYZE === 'true';
-  let dotenvPath = isProduction ? path.resolve(__dirname, '.env') : path.resolve(__dirname, '.env.development');
+  const mode = env.mode || 'development'; // default to development
+  const isProduction = mode === 'production';
 
+  const shouldAnalyze = process.env.ANALYZE === 'true';
+  const dotenvPath = path.resolve(__dirname, isProduction ? '.env' : '.env.development');
+  require('dotenv').config({ path: dotenvPath });
+  console.log(`Using env file: ${dotenvPath}`);
   require('dotenv').config({ path: dotenvPath });
 
   console.log(dotenvPath);
@@ -100,7 +103,7 @@ module.exports = (env, argv) => {
       rules: [
         { test: /\.(png|svg|jpg|jpeg|gif)$/i, type: 'asset' },
         { test: /\.(woff|woff2|ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i, type: 'asset' },
-        { test: /\.css$/,  oneOf: [{include: /monaco-editor/, use: ['style-loader', 'css-loader'] }, { use: ['style-loader', cssLoader, postcssLoader, sassLoader], }]},
+        { test: /\.css$/, oneOf: [{ include: /monaco-editor/, use: ['style-loader', 'css-loader'] }, { use: ['style-loader', cssLoader, postcssLoader, sassLoader], }] },
         { test: /\.scss$/i, use: ['style-loader', cssLoader, postcssLoader, sassLoader] },
         { test: /\.ts$/i, use: ['ts-loader', '@aurelia/webpack-loader'], exclude: /node_modules/ },
         {
