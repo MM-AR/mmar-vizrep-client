@@ -1,4 +1,4 @@
-import { bindable, customElement, EventAggregator, inject } from "aurelia";
+import { all, bindable, customElement, EventAggregator, inject } from "aurelia";
 import { Class, ClassInstance, MetaObject, Port, PortInstance, Relationclass, RelationclassInstance, SceneInstance, SceneType } from "../../../../mmar-global-data-structure";
 import { SelectedObjectService } from "../../resources/services/selected-object";
 import { FetchHelper } from "resources/services/fetchHelper";
@@ -17,6 +17,7 @@ import { GlobalSelectedObject } from "resources/global_selected_object";
 import { InstanceUtility } from "resources/services/instance_utility";
 import { Logger } from "resources/services/logger";
 import { LineUpdateService } from "resources/services/line_update_service";
+import { GlobalClassObject } from "resources/global_class_object";
 
 @customElement("object-card")
 @inject(SelectedObjectService)
@@ -42,15 +43,26 @@ export class objectCard {
     private globalSelectedObject: GlobalSelectedObject,
     private instanceUtility: InstanceUtility,
     private logger: Logger,
-    private lineUpdateService: LineUpdateService
-  ) {
-  }
+    private lineUpdateService: LineUpdateService,
+    private globalClassObject: GlobalClassObject,
+    ) {
+        // this.eventAggregator.subscribe('tabChanged', async () => {
+        //     await this.setIcons();
+        // });
+    }
+
+    async attached() {
+        await this.setIcons();
+
+    }
 
   get isSelected() {
     return (
       this.selectedObjectService.getSelectedObject()?.uuid === this.object.uuid
     );
   }
+
+  
 
   async onButtonClicked(object) {
     console.log(object);
@@ -179,7 +191,7 @@ export class objectCard {
         this.instanceCreationHandler.addPointToClassInstance(instance as RelationclassInstance, endSphere);
 
         //add line points
-        this.instanceCreationHandler.addLinePoint(correspondingSceneObject,startObjecPoint, startSphere);
+        this.instanceCreationHandler.addLinePoint(correspondingSceneObject, startObjecPoint, startSphere);
         this.instanceCreationHandler.addLastLinePoint(correspondingSceneObject, endSphere);
 
         // set the start and end position of the line2
@@ -260,6 +272,26 @@ export class objectCard {
     }
 
     this.globalObjectInstance.sceneTree = this.tree;
+  }
+
+  async getImage(obj: Class | Relationclass | Port) {
+    const geometry = obj.geometry;
+    const icon = await this.globalClassObject.getIcon(geometry.toString());
+    return icon;
+  }
+
+  async setIcons() {
+    //call getImage on all Classes of globalObjectInstance.tabContext[globalObjectInstance.selectedTab].sceneType.classes
+    const classes = this.globalObjectInstance.classes;
+    const relations = this.globalObjectInstance.relationClasses;
+    const ports = this.globalObjectInstance.ports;
+
+    const allObjects = [...classes, ...relations, ...ports];
+    for (const obj of allObjects) {
+      obj["icon"] = undefined;
+      const icon = await this.getImage(obj);
+      obj["icon"] = icon;
+    }
   }
 
 }
