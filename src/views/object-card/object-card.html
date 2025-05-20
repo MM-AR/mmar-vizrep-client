@@ -10,7 +10,7 @@
                 mdc-tooltip="value.bind: object.description ? object.description : object.name">
             <mdc-image-list-item
                     class="mdc-image-list__item"
-                    src.bind="selectedObjectService.getIcon(object.geometry.toString())"
+                    src.bind="object.icon"
             ></mdc-image-list-item>
             <div class="object-card__primary-action__name">${object.name}</div>
         </mdc-card-primary-action>

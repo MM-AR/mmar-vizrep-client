@@ -58,6 +58,13 @@ declare type ExpressionUtility = {
   checkForVisualizationUpdate(): void;
   /** Checks if there is a visual update regarding a specific AttributeInstance. */
   checkForVisualizationUpdateByAttributeUUID(instanceUUID: string, metaAttributeUUID: string): void;
+  /**
+   * Retrieves the file from the local storage or fetches it from the server if not found.
+   * 
+   * @param {string} fileUUID - The UUID of the file.
+   * @returns {Promise<string>} - A promise resolving to the file content as a string. 
+   */
+  getFile(fileUUID: string): Promise<string>;
 };
 
 /**
@@ -65,33 +72,35 @@ declare type ExpressionUtility = {
  */
 declare type GraphicContext = {
   /** Set a variable in the context. */
-  setVariable(name: string, value: any, dynamic: boolean): void;
+  setVariable(name: string, value: any, instance_adaptable: boolean): Promise<void>;
   /** Get a variable value from the context. */
-  getVariableValue(name: string): any;
+  getVariableValue(name: string): Promise<any>;
+  /** Get a variable's instance adaptability status. */
+  getVariableInstance_adaptable(name: string): Promise<any>;
   /** Create a 3D cube object. */
-  graphic_cube(width: number, height: number, depth: number, color?: string, map?: string, x_rel?: number, y_rel?: number, z_rel?: number): void;
+  graphic_cube(width: number, height: number, depth: number, color?: string, map?: string, x_rel?: number, y_rel?: number, z_rel?: number): Promise<any>;
   /** Create a 3D plane object. */
-  graphic_plane(width: number, height: number, color?: string, map?: string, x_rel?: number, y_rel?: number, z_rel?: number): void;
+  graphic_plane(width: number, height: number, color?: string, map?: string, x_rel?: number, y_rel?: number, z_rel?: number): Promise<any>;
   /** Create a 3D sphere object. */
-  graphic_sphere(radius: number, widthSegments: number, heightSegments: number, color?: string, map?: string, x_rel?: number, y_rel?: number, z_rel?: number): void;
+  graphic_sphere(radius: number, widthSegments: number, heightSegments: number, color?: string, map?: string, x_rel?: number, y_rel?: number, z_rel?: number): Promise<any>;
   /** Load a predefined GLTF object. */
-  graphic_gltf(objectString: string, x_rel?: number, y_rel?: number, z_rel?: number): void;
+  graphic_gltf(objectString: string, x_rel?: number, y_rel?: number, z_rel?: number): Promise<any>;
   /** Create a 3D button object. */
-  graphic_button(object: any, expression?: string): void;
+  graphic_button(object: any, expression?: string): Promise<any>;
   /** Create a 3D text object. */
-  graphic_text(x_rel: number, y_rel: number, z_rel: number, size: number, color: string, att: string, pos_name_x?: string, pos_name_y?: string, pos_name_z?: string, rx?: number, ry?: number, rz?: number, rw?: number): void;
+  graphic_text(x_rel: number, y_rel: number, z_rel: number, size: number, color: string, att: string, pos_name_x?: string, pos_name_y?: string, pos_name_z?: string, rx?: number, ry?: number, rz?: number, rw?: number): Promise<any>;
   /** Create a 3D line for relations. */
-  rel_graphic_line(color: string, line_width: number, dashed: boolean, dash_scale: number, dash_size: number, gap_size: number): void;
+  rel_graphic_line(color: string, line_width: number, dashed: boolean, dash_scale: number, dash_size: number, gap_size: number): Promise<void>;
   /** Define the from-object for a relation. */
-  rel_from_object(object: any): void;
+  rel_from_object(object: any): Promise<void>;
   /** Define the to-object for a relation. */
-  rel_to_object(object: any): void;
+  rel_to_object(object: any): Promise<void>;
   /** Add text to the from-object of a relation. */
-  rel_graphic_text_from(textObject: any): void;
+  rel_graphic_text_from(textObject: any): Promise<void>;
   /** Add text to the middle of a relation. */
-  rel_graphic_text_middle(textObject: any): void;
+  rel_graphic_text_middle(textObject: any): Promise<void>;
   /** Add text to the to-object of a relation. */
-  rel_graphic_text_to(textObject: any): void;
+  rel_graphic_text_to(textObject: any): Promise<void>;
   /** Expression utility functions. */
   expression: ExpressionUtility;
 };

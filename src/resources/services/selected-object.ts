@@ -1129,46 +1129,6 @@ export class SelectedObjectService {
         }
     }
 
-    getIcon(wholeVizRep: string): string {
-        let vizRep: string = wholeVizRep;
-        let map = "";
-
-        if (!vizRep) {
-            // return a default image in base64
-
-            const defaultImageBase64 =
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAQAAAD9CzEMAAAAdElEQVRYw+2SwQ2AIBAEpwC6oSdqoii6oQD8+DHBAOdpNO7sCx7MbgII8SSBRKGQCP6PRzKVtqeSib69WycOW469ezFvOe/tsGXc27xlrffiFlvvhS3NORJIIMFbBLNIIMGfBKN7Ce4XfPcXzZ4luCYQwsoGpwTEXjWPD4EAAAAASUVORK5CYII=";
-            return defaultImageBase64;
-        }
-
-        //if icon defined
-        vizRep = wholeVizRep.split("let icon")[1];
-        if (vizRep) {
-            const arrStr: string[] = vizRep.split("'");
-            for (const substring of arrStr) {
-                const string: string = substring;
-                if (string.startsWith("data")) {
-                    map = string;
-                }
-            }
-        }
-
-        //if icon not defined try to take map
-        if (map == "") {
-            vizRep = wholeVizRep.split("let map")[1];
-            if (vizRep) {
-                const arrStr: string[] = vizRep.split("'");
-                for (const substring of arrStr) {
-                    const string: string = substring;
-                    if (string.startsWith("data")) {
-                        map = string;
-                    }
-                }
-            }
-        }
-
-        return map;
-    }
 
     removeObject(objectUuids: string | string[]) {
         if (!Array.isArray(objectUuids)) {
