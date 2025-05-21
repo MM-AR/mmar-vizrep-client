@@ -62,7 +62,7 @@ export class GlobalClassObject {
     this.onObjectChange();
   }
 
-  async getIcon(wholeVizRep: string) {
+   async getIcon(wholeVizRep: string) {
     let vizRep: string = wholeVizRep;
     let map = '';
     let next = false;
@@ -75,6 +75,7 @@ export class GlobalClassObject {
         const string: string = substring;
         if (string.startsWith('data')) {
           map = string;
+          return map;
         }
         else if (string.endsWith('getFile(')) {
           next = true;
@@ -83,7 +84,7 @@ export class GlobalClassObject {
           map = str;
           break;
         }
-      };
+      }
     }
 
     //if icon not defined try to take map
@@ -95,8 +96,9 @@ export class GlobalClassObject {
           const string: string = substring;
           if (string.startsWith('data')) {
             map = string;
+            return map;
           }
-        };
+        }
       }
     }
 
