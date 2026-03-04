@@ -83,6 +83,8 @@ declare type GraphicContext = {
   graphic_plane(width: number, height: number, color?: string, map?: string, x_rel?: number, y_rel?: number, z_rel?: number): Promise<any>;
   /** Create a 3D sphere object. */
   graphic_sphere(radius: number, widthSegments: number, heightSegments: number, color?: string, map?: string, x_rel?: number, y_rel?: number, z_rel?: number): Promise<any>;
+  /** Create a 3D cylinder object. */
+  graphic_cylinder(radiusTop: number, radiusBottom: number, height: number, radialSegments: number, heightSegments: number, color?: string, map?: string, x_rel?: number, y_rel?: number, z_rel?: number, openEnded?: boolean, thetaStart?: number, thetaLength?: number): Promise<any>;
   /** Load a predefined GLTF object. */
   graphic_gltf(objectString: string, x_rel?: number, y_rel?: number, z_rel?: number): Promise<any>;
   /** Create a 3D button object. */
