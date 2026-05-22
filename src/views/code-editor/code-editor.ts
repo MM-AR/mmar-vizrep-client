@@ -2,6 +2,7 @@ import { EventAggregator, ICustomElementViewModel } from 'aurelia';
 import * as monaco from 'monaco-editor';
 import { GlobalDefinition } from 'resources/global_definitions';
 import { SelectedObjectService } from 'resources/services/selected-object';
+import { LlmVizrepService } from "../../resources/services/llm-vizrep-service";
 
 import beautify from 'js-beautify';
 
@@ -10,10 +11,25 @@ export class CodeEditor implements ICustomElementViewModel {
   private editor!: monaco.editor.IStandaloneCodeEditor;
   private ignoreChange = false;
 
+  llmPrompt = '';
+  selectedArchetype = 'custom_archetype';
+  isGeneratingVizrep = false;
+  llmError = '';
+
+  archetypeOptions = [
+    { value: 'flat_node', label: 'Flat node' },
+    { value: 'volumetric_node', label: 'Volumetric node' },
+    { value: 'composite_node', label: 'Composite node' },
+    { value: 'relation_edge', label: 'Relation edge' },
+    { value: 'custom_archetype', label: 'Custom archetype' },
+  ];
+
+
   constructor(
     private globalObjectInstance: GlobalDefinition,
     private eventAggregator: EventAggregator,
-    private selectedObjectService: SelectedObjectService
+    private selectedObjectService: SelectedObjectService,
+    private llmVizrepService: LlmVizrepService
   ) { }
 
   attached() {
@@ -150,9 +166,35 @@ declare const gc: GraphicContext;
     this.editor?.dispose();
   }
 
+   async generateVizRepWithLlm() {
+    if (!this.llmPrompt.trim()) {
+      this.llmError = 'Please enter a prompt first.';
+      return;
+    }
+
+    this.isGeneratingVizrep = true;
+    this.llmError = '';
+
+    try {
+      const vizrep = await this.llmVizrepService.generate(
+        this.llmPrompt,
+        this.selectedArchetype
+      );
+
+      this.globalObjectInstance.codeEditorValue = vizrep;
+      this.editor.setValue(vizrep);
+    } catch (error) {
+      this.llmError =
+        error instanceof Error ? error.message : 'VizRep generation failed.';
+    } finally {
+      this.isGeneratingVizrep = false;
+    }
+  }
+
   async setEditorValueToCurrentInstance() {
     const object = this.selectedObjectService.getSelectedObject();
     object.geometry = this.editor.getValue() as unknown as Function;
     this.eventAggregator.publish('updatedGeometryValue');
   }
 }
+

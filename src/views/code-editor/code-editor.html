@@ -1,1 +1,33 @@
+<div class="llm-vizrep-panel">
+  <div class="llm-vizrep-header">
+    <strong>LLM-assisted VizRep generation</strong>
+  </div>
+
+  <div class="llm-vizrep-controls">
+    <select value.bind="selectedArchetype">
+      <option repeat.for="option of archetypeOptions" value.bind="option.value">
+        ${option.label}
+      </option>
+    </select>
+
+    <textarea
+      value.bind="llmPrompt"
+      placeholder="Describe the visualization you want to generate..."
+    ></textarea>
+
+    <button
+      mdc-button
+      outlined
+      click.trigger="generateVizRepWithLlm()"
+      disabled.bind="isGeneratingVizrep"
+    >
+      ${isGeneratingVizrep ? 'Generating...' : 'Generate VizRep'}
+    </button>
+  </div>
+
+  <div if.bind="llmError" class="llm-vizrep-error">
+    ${llmError}
+  </div>
+</div>
+
 <div class="editor" id="editor" element.ref="codeEditor"></div>
