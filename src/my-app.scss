@@ -265,6 +265,13 @@ body {
   resize: vertical;
 }
 
+.llm-vizrep-action-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px;
+}
+
 .llm-vizrep-controls button {
   align-self: flex-start;
   min-width: 180px;
@@ -273,6 +280,30 @@ body {
 
 .llm-vizrep-controls button * {
   color: white !important;
+}
+
+.llm-vizrep-assets {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.llm-vizrep-assets label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  color: white;
+  font-size: 11px;
+}
+
+.llm-vizrep-assets select {
+  background: #2b2b2b;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 4px;
+  padding: 5px 8px;
+  font-size: 12px;
+  min-width: 90px;
 }
 
 .llm-vizrep-error {

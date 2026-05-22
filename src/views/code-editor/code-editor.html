@@ -15,14 +15,36 @@
       placeholder="Describe the visualization you want to generate..."
     ></textarea>
 
-    <button
-      mdc-button
-      outlined
-      click.trigger="generateVizRepWithLlm()"
-      disabled.bind="isGeneratingVizrep"
-    >
-      ${isGeneratingVizrep ? 'Generating...' : 'Generate VizRep'}
-    </button>
+    <div class="llm-vizrep-action-row">
+      <button
+        mdc-button
+        outlined
+        click.trigger="generateVizRepWithLlm()"
+        disabled.bind="isGeneratingVizrep"
+      >
+        ${isGeneratingVizrep ? 'Generating...' : 'Generate VizRep'}
+      </button>
+
+      <div class="llm-vizrep-assets">
+        <label>
+          asset1
+          <select value.bind="asset1Type">
+            <option repeat.for="option of assetTypeOptions" value.bind="option.value">
+              ${option.label}
+            </option>
+          </select>
+        </label>
+
+        <label>
+          asset2
+          <select value.bind="asset2Type">
+            <option repeat.for="option of assetTypeOptions" value.bind="option.value">
+              ${option.label}
+            </option>
+          </select>
+        </label>
+      </div>
+    </div>
   </div>
 
   <div if.bind="llmError" class="llm-vizrep-error">

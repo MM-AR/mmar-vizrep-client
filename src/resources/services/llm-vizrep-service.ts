@@ -1,7 +1,7 @@
 export class LlmVizrepService {
   private readonly serviceUrl = "http://localhost:3000";
 
-  async generate(prompt: string, archetype: string): Promise<string> {
+  async generate(prompt: string, archetype: string, assetSlots = []): Promise<string> {
     const response = await fetch(`${this.serviceUrl}/api/llm/generate`, {
       method: "POST",
       headers: {
@@ -10,6 +10,7 @@ export class LlmVizrepService {
       body: JSON.stringify({
         prompt,
         archetype,
+        assetSlots,
       }),
     });
 

@@ -15,6 +15,14 @@ export class CodeEditor implements ICustomElementViewModel {
   selectedArchetype = 'custom_archetype';
   isGeneratingVizrep = false;
   llmError = '';
+  asset1Type = 'none';
+  asset2Type = 'none';
+
+  assetTypeOptions = [
+    { value: 'none', label: 'No asset' },
+    { value: 'map', label: 'Map' },
+    { value: 'gltf', label: 'glTF' },
+  ];
 
   archetypeOptions = [
     { value: 'flat_node', label: 'Flat node' },
@@ -166,7 +174,21 @@ declare const gc: GraphicContext;
     this.editor?.dispose();
   }
 
-   async generateVizRepWithLlm() {
+  private buildAssetSlots() {
+    const assetSlots = [];
+
+    if (this.asset1Type !== 'none') {
+      assetSlots.push({ id: 'asset1', type: this.asset1Type });
+    }
+
+    if (this.asset2Type !== 'none') {
+      assetSlots.push({ id: 'asset2', type: this.asset2Type });
+    }
+
+    return assetSlots;
+  }
+
+  async generateVizRepWithLlm() {
     if (!this.llmPrompt.trim()) {
       this.llmError = 'Please enter a prompt first.';
       return;
@@ -178,7 +200,8 @@ declare const gc: GraphicContext;
     try {
       const vizrep = await this.llmVizrepService.generate(
         this.llmPrompt,
-        this.selectedArchetype
+        this.selectedArchetype,
+        this.buildAssetSlots()
       );
 
       this.globalObjectInstance.codeEditorValue = vizrep;
