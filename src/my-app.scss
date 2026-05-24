@@ -92,7 +92,9 @@ body {
 
 .editor {
     width: 100%;
-    height: 40%;
+    height: 250px !important;
+    min-height: 250px !important;
+    max-height: 250px !important;
     background-color: $canvas;
 }
 
@@ -224,3 +226,93 @@ body {
     justify-content: space-between;
     align-items: center;
   }
+
+.llm-vizrep-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  background: #1f1f1f;
+  border-bottom: 1px solid #444;
+  max-height: 180px;
+  overflow: hidden;
+}
+
+.llm-vizrep-header {
+  color: white;
+  font-size: 14px;
+}
+
+.llm-vizrep-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.llm-vizrep-controls select,
+.llm-vizrep-controls textarea {
+  background: #2b2b2b;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 13px;
+}
+
+.llm-vizrep-controls textarea {
+  min-height: 45px;
+  max-height: 65px;
+  resize: vertical;
+}
+
+.llm-vizrep-action-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.llm-vizrep-controls button {
+  align-self: flex-start;
+  min-width: 180px;
+  color: white !important;
+}
+
+.llm-vizrep-controls button * {
+  color: white !important;
+}
+
+.llm-vizrep-assets {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.llm-vizrep-assets label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  color: white;
+  font-size: 11px;
+}
+
+.llm-vizrep-assets select {
+  background: #2b2b2b;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 4px;
+  padding: 5px 8px;
+  font-size: 12px;
+  min-width: 90px;
+}
+
+.llm-vizrep-error {
+  color: #ff6b6b;
+  font-size: 12px;
+  padding: 4px 0;
+  min-height: 16px;
+}
+
+.editor {
+  height: calc(100% - 190px);
+}
